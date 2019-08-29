@@ -76,8 +76,8 @@ export class InvoiceService {
             }
             let priceWithDiscount = lastPrice * (e.discount_rate/100);
             let priceWithTaxt = lastPrice * (e.tax_rate/100);
-            newInvoice.tax_total += priceWithDiscount;
-            newInvoice.discount_total += priceWithTaxt;
+            newInvoice.tax_total += priceWithTaxt;
+            newInvoice.discount_total += priceWithDiscount;
             newInvoice.subtotal += lastPrice;
             newInvoice.total = newInvoice.subtotal - priceWithDiscount + priceWithTaxt;
         })
