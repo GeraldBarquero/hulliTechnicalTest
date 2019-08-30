@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Invoice, Payments, PayInvoice } from '../entities/invoice';
 var soap = require('soap');
 var parseString = require('xml-js');
+var dateFormat = require('dateformat');
 @Injectable()
 export class InvoiceService {
     private readonly invoices: Invoice[] = [];
@@ -9,12 +10,12 @@ export class InvoiceService {
     private maxIdPay: number = 0;
 
     async getCurrencyValueSale(){
-        
+        var day=dateFormat(new Date(), "dd/mm/yyyy");
         var resultWs = '';
         var url = 'https://gee.bccr.fi.cr/Indicadores/Suscripciones/WS/wsindicadoreseconomicos.asmx?WSDL';
         var args = {Indicador: '318', 
-                    FechaInicio: '28/08/2019', 
-                    FechaFinal: '28/08/2019', 
+                    FechaInicio: day, 
+                    FechaFinal: day, 
                     Nombre: 'Gerald Barquero', 
                     SubNiveles: 'S', 
                     CorreoElectronico: 'gerald.bv1@gmail.com',
@@ -89,6 +90,17 @@ export class InvoiceService {
 
     async getAllInvoice(){
         return this.invoices;
+    }
+
+    async getOneInvoice(id: number){
+        let newInvoice = new Invoice();
+        await this.asyncForEach(this.invoices, async(e) => {
+            if (e.id == id ){
+                newInvoice = e;
+            }
+        })
+
+        return newInvoice;
     }
 
     async payInvoice(id: number, payIn: PayInvoice){

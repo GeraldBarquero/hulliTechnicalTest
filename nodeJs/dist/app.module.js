@@ -9,15 +9,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const bccr_service_1 = require("./bccr/bccr.service");
-const bccr_controller_1 = require("./bccr/bccr.controller");
+const invoice_service_1 = require("./invoice/invoice.service");
+const invoice_controller_1 = require("./invoice/invoice.controller");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     common_1.Module({
         imports: [],
-        controllers: [app_controller_1.AppController, bccr_controller_1.BccrController],
-        providers: [app_service_1.AppService, bccr_service_1.BccrService],
+        controllers: [app_controller_1.AppController, invoice_controller_1.InvoiceController],
+        providers: [app_service_1.AppService, invoice_service_1.InvoiceService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

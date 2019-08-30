@@ -51,17 +51,18 @@ type Payments struct {
 	Total float64 `json:"total,omitempty"`
 }
 
+// structs BCCR service
 type ResponseXML struct {
 	ResponseXML string `xml:"ObtenerIndicadoresEconomicosXMLResult"`
 }
 
-// GetIPLocationResult will
+// structs BCCR service
 type INDICADORECONOMIC struct {
 	Datos_de_INGC011_CAT_INDICADORECONOMIC xml.Name    `xml:"Datos_de_INGC011_CAT_INDICADORECONOMIC"`
 	INGC011_CAT_INDICADORECONOMIC          SecondLevel `xml:"INGC011_CAT_INDICADORECONOMIC"`
 }
 
-// GetIPLocationResult will
+// structs BCCR service
 type SecondLevel struct {
 	XMLNAME              xml.Name `xml:"INGC011_CAT_INDICADORECONOMIC"`
 	COD_INDICADORINTERNO int      `xml:"COD_INDICADORINTERNO"`
@@ -69,17 +70,25 @@ type SecondLevel struct {
 	NUM_VALOR            float64  `xml:"NUM_VALOR"`
 }
 
+//array Types for the data of Invoices
 type allInvoice []Invoice
 type arrayLines []Lines
 
+//array of invoices in the system
 var invoices = allInvoice{}
+
+// Id var for the invoices
 var maxId int = 0
+
+// Id var for the invoices payments
 var maxIdPay int = 0
 
+// endpoint test
 func homeLink(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome to the technical test. Rest Api with GO!")
 }
 
+// func for BCCR service consults
 func getCurrencyValueSale() (value float64) {
 
 	var (
@@ -119,6 +128,7 @@ func getCurrencyValueSale() (value float64) {
 
 }
 
+// endpoint for Invoice Created
 func createInvoice(w http.ResponseWriter, r *http.Request) {
 	maxId = maxId + 1
 	var newInvoice Invoice
@@ -156,6 +166,7 @@ func createInvoice(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(newInvoice)
 }
 
+// endpoint for get one Invoice
 func getOneInvoice(w http.ResponseWriter, r *http.Request) {
 	invoiceID, err := strconv.Atoi(mux.Vars(r)["id"])
 	if err == nil {
@@ -171,10 +182,12 @@ func getOneInvoice(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//endpoint for get all invoices in the system
 func getAllInvoices(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(invoices)
 }
 
+// endpoint for pay one Invoice
 func payInvoice(w http.ResponseWriter, r *http.Request) {
 	invoiceID, err := strconv.Atoi(mux.Vars(r)["id"])
 	if err == nil {
@@ -212,6 +225,7 @@ func payInvoice(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// endpoint for delete invoice
 func deleteInvoice(w http.ResponseWriter, r *http.Request) {
 	invoiceID, err := strconv.Atoi(mux.Vars(r)["id"])
 	if err == nil {
@@ -228,6 +242,7 @@ func deleteInvoice(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// func main of the solution
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", homeLink)

@@ -3,7 +3,7 @@ import { InvoiceService } from './invoice.service';
 import { Invoice } from '../entities/invoice';
 import { PayInvoice } from '../entities/invoice';
 
-@Controller('bccr')
+@Controller('invoice')
 export class InvoiceController {
     constructor(private invoiceService: InvoiceService) {
 
@@ -11,7 +11,7 @@ export class InvoiceController {
 
     @Get(':id')
     getValue(@Param('id') id,@Res() response) {
-        this.invoiceService.calculatePriceCRC(id).then( token => {
+        this.invoiceService.getOneInvoice(id).then( token => {
             console.log(token);
             response.status(HttpStatus.OK).json(token);
         }).catch( (e) => {
